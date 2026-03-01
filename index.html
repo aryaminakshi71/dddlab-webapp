@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DDDL Gurugram Lab Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Animal Husbandry Department, Haryana</p>
+      <h1>DDDL Gurugram Laboratory Portal</h1>
+      <p class="sub">Sample intake, report upload, and dispatch tracking</p>
+    </div>
+    <div class="top-actions">
+      <div class="auth-card" id="authCard">
+        <div id="authLoggedOut">
+          <p class="auth-title">Staff Login</p>
+          <div class="auth-grid">
+            <input id="authName" placeholder="Name (for register)">
+            <input id="authEmail" type="email" placeholder="Email">
+            <input id="authPassword" type="password" placeholder="Password">
+          </div>
+          <div class="auth-actions">
+            <button id="loginBtn" class="btn btn-outline">Sign In</button>
+            <button id="registerBtn" class="btn btn-primary">Register</button>
+          </div>
+          <p id="authMsg" class="auth-msg"></p>
+        </div>
+        <div id="authLoggedIn" class="hidden">
+          <p id="currentUserLabel" class="auth-user"></p>
+          <div class="auth-actions">
+            <button id="logoutBtn" class="btn btn-outline">Logout</button>
+          </div>
+        </div>
+      </div>
+      <button id="exportBtn" class="btn btn-outline">Export Records</button>
+      <button id="clearBtn" class="btn btn-danger">Clear Data</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel intake-panel">
+      <div class="panel-head">
+        <h2>Sample Intake</h2>
+        <span class="pill">Live Intake</span>
+      </div>
+
+      <form id="sampleForm" novalidate>
+        <div class="grid two">
+          <label>
+            Sample ID
+            <input id="sampleId" name="sampleId" readonly>
+          </label>
+          <label>
+            Received At
+            <input id="receivedAt" name="receivedAt" type="datetime-local" required>
+          </label>
+        </div>
+
+        <div class="grid two">
+          <label>
+            Owner Name
+            <input id="ownerName" name="ownerName" required placeholder="Owner full name">
+          </label>
+          <label>
+            Phone
+            <input id="phone" name="phone" required placeholder="10-digit mobile">
+          </label>
+        </div>
+
+        <div class="grid three">
+          <label>
+            Village / Area
+            <input id="village" name="village" placeholder="Village or block">
+          </label>
+          <label>
+            Animal Species
+            <select id="species" name="species" required>
+              <option value="">Select</option>
+              <option>Cattle</option>
+              <option>Buffalo</option>
+              <option>Sheep</option>
+              <option>Goat</option>
+              <option>Horse</option>
+              <option>Dog</option>
+              <option>Cat</option>
+              <option>Poultry</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>
+            Sample Type
+            <select id="sampleType" name="sampleType" required>
+              <option value="">Select</option>
+              <option>Serum</option>
+              <option>Blood</option>
+              <option>Urine</option>
+              <option>Milk</option>
+              <option>Feed</option>
+              <option>Water</option>
+              <option>Meat</option>
+              <option>Other</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid three">
+          <label>
+            Veterinary Surgeon
+            <input id="vetName" name="vetName" placeholder="Referring doctor">
+          </label>
+          <label>
+            Priority
+            <select id="priority" name="priority">
+              <option>Routine</option>
+              <option>Urgent</option>
+              <option>Emergency</option>
+            </select>
+          </label>
+          <label>
+            Current Status
+            <select id="status" name="status">
+              <option>Received</option>
+              <option>In Process</option>
+              <option>Report Ready</option>
+              <option>Dispatched</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          Tests Requested
+          <textarea id="testsRequested" name="testsRequested" rows="3" required placeholder="Example: LFT + KFT + Calcium + Fluoride"></textarea>
+        </label>
+
+        <label>
+          Report File (PDF/Image, optional)
+          <input id="reportFile" name="reportFile" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp">
+        </label>
+
+        <div class="grid two">
+          <label>
+            Report Date
+            <input id="reportDate" name="reportDate" type="date">
+          </label>
+          <label>
+            Provisional Diagnosis
+            <input id="diagnosis" name="diagnosis" placeholder="Diagnosis summary">
+          </label>
+        </div>
+
+        <label>
+          Lab Findings
+          <textarea id="labFindings" name="labFindings" rows="3" placeholder="Key findings / results"></textarea>
+        </label>
+
+        <label>
+          Notes
+          <textarea id="remarks" name="remarks" rows="2" placeholder="Clinical history / remarks"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" id="saveBtn" class="btn btn-primary">Save Sample</button>
+          <button type="button" id="resetBtn" class="btn btn-outline">Reset</button>
+          <span id="formMsg" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel dashboard-panel">
+      <div class="panel-head">
+        <h2>Lab Dashboard</h2>
+        <span id="dbStatus" class="pill">Initializing...</span>
+      </div>
+
+      <div class="metrics" id="metrics">
+        <article>
+          <p>Total Samples</p>
+          <h3 id="mTotal">0</h3>
+        </article>
+        <article>
+          <p>Received</p>
+          <h3 id="mReceived">0</h3>
+        </article>
+        <article>
+          <p>In Process</p>
+          <h3 id="mInProcess">0</h3>
+        </article>
+        <article>
+          <p>Report Ready</p>
+          <h3 id="mReady">0</h3>
+        </article>
+        <article>
+          <p>Dispatched</p>
+          <h3 id="mDispatched">0</h3>
+        </article>
+        <article>
+          <p>Today</p>
+          <h3 id="mToday">0</h3>
+        </article>
+      </div>
+
+      <div class="quick-note">
+        <h4>Workflow</h4>
+        <ol>
+          <li>Register sample when received.</li>
+          <li>Update status as processing progresses.</li>
+          <li>Upload report when ready.</li>
+          <li>Mark as dispatched after communication.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="panel table-panel">
+      <div class="panel-head table-head">
+        <h2>Sample Register</h2>
+        <div class="filters">
+          <input id="searchInput" placeholder="Search by sample ID, owner, phone">
+          <select id="statusFilter">
+            <option value="">All Statuses</option>
+            <option>Received</option>
+            <option>In Process</option>
+            <option>Report Ready</option>
+            <option>Dispatched</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Sample ID</th>
+              <th>Received</th>
+              <th>Owner / Contact</th>
+              <th>Species / Sample</th>
+              <th>Status</th>
+              <th>Report</th>
+              <th>User</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="recordsBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <template id="rowTemplate">
+    <tr>
+      <td class="mono sample-id"></td>
+      <td class="received-at"></td>
+      <td class="owner"></td>
+      <td class="species"></td>
+      <td class="status-cell"></td>
+      <td class="report-cell"></td>
+      <td class="actions-cell"></td>
+    </tr>
+  </template>
+
+  <div id="previewModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Report Preview">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="previewTitle">Report Preview</h3>
+        <button id="closePreviewBtn" class="btn btn-outline">Close</button>
+      </div>
+      <div id="previewBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
