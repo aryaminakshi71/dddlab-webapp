@@ -8,6 +8,7 @@ A GitHub Pages-ready web app for:
 - multi-user attribution on each record (created/updated by)
 - report preview modal (PDF/image), printable sample slip, and printable report template
 - quick JSON export
+- optional Supabase cloud sync for cross-device data
 
 ## Tech
 - Static HTML/CSS/JS
@@ -54,3 +55,42 @@ git push -u origin main
 - Uploaded reports remain on the same browser/device profile.
 - Multi-user is local to each browser profile unless a backend is added.
 - `Export Records` exports metadata JSON (not the binary report files).
+
+## Supabase Cloud Setup (optional)
+Use this if you want shared records across devices.
+
+1. Create a Supabase project.
+2. In SQL editor, run:
+
+```sql
+create table if not exists public.lab_samples (
+  id text primary key,
+  payload jsonb not null,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.lab_samples enable row level security;
+
+create policy \"anon_read_lab_samples\" on public.lab_samples
+for select to anon using (true);
+
+create policy \"anon_insert_lab_samples\" on public.lab_samples
+for insert to anon with check (true);
+
+create policy \"anon_update_lab_samples\" on public.lab_samples
+for update to anon using (true) with check (true);
+
+create policy \"anon_delete_lab_samples\" on public.lab_samples
+for delete to anon using (true);
+```
+
+3. Create storage bucket `lab-reports` and make it public.
+4. Add storage policies for `anon` read/write/delete on `lab-reports`.
+5. In app UI, paste:
+   - `Supabase URL`
+   - `Supabase anon key`
+6. Click `Connect Cloud`, then `Sync Now`.
+
+Important:
+- These `anon` policies are permissive for quick setup/demo.
+- For production, restrict policies with proper authenticated roles.

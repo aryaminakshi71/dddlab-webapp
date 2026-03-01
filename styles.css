@@ -314,6 +314,45 @@ textarea:focus {
   font-size: 13px;
 }
 
+.cloud-box {
+  margin-top: 12px;
+  border: 1px solid #d8e1ef;
+  border-radius: 12px;
+  padding: 12px;
+  background: linear-gradient(180deg, #f9fcff 0%, #eef4fc 100%);
+}
+
+.cloud-box h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #133a67;
+}
+
+.cloud-sub {
+  margin: 4px 0 10px;
+  font-size: 12px;
+  color: #5d6d85;
+}
+
+.cloud-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.cloud-actions {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cloud-msg {
+  margin: 8px 0 0;
+  min-height: 16px;
+  font-size: 12px;
+  color: #486280;
+}
+
 .table-head {
   margin-bottom: 10px;
 }

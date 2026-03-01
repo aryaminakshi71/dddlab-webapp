@@ -5,6 +5,10 @@ const FILE_STORE = "files";
 const USER_STORE = "users";
 const SESSION_KEY = "dddl_lab_session_user";
 
+const CLOUD_CONFIG_KEY = "dddl_cloud_config";
+const CLOUD_TABLE = "lab_samples";
+const CLOUD_BUCKET = "lab-reports";
+
 const statusOptions = ["Received", "In Process", "Report Ready", "Dispatched"];
 
 let db = null;
@@ -12,6 +16,8 @@ let samplesCache = [];
 let editingId = null;
 let currentUser = null;
 let previewUrl = null;
+let supabaseClient = null;
+let cloudConnected = false;
 
 const sampleForm = document.getElementById("sampleForm");
 const saveBtn = document.getElementById("saveBtn");
@@ -44,6 +50,13 @@ const previewBody = document.getElementById("previewBody");
 const previewTitle = document.getElementById("previewTitle");
 const closePreviewBtn = document.getElementById("closePreviewBtn");
 
+const sbUrlInput = document.getElementById("sbUrl");
+const sbAnonKeyInput = document.getElementById("sbAnonKey");
+const cloudConnectBtn = document.getElementById("cloudConnectBtn");
+const cloudDisconnectBtn = document.getElementById("cloudDisconnectBtn");
+const cloudSyncBtn = document.getElementById("cloudSyncBtn");
+const cloudMsg = document.getElementById("cloudMsg");
+
 const metricEls = {
   total: document.getElementById("mTotal"),
   received: document.getElementById("mReceived"),
@@ -57,11 +70,15 @@ async function init() {
   try {
     db = await openDb();
     bindEvents();
+
     setDefaultDateTime();
     onResetForm();
 
+    loadCloudConfig();
     await restoreSession();
+    await maybeAutoConnectCloud();
     await refreshSamples();
+
     updateAuthUI();
     updateAppAccess();
   } catch (error) {
@@ -87,6 +104,10 @@ function bindEvents() {
   previewModal.addEventListener("click", (event) => {
     if (event.target === previewModal) closePreview();
   });
+
+  cloudConnectBtn.addEventListener("click", () => connectCloud({ userInitiated: true }));
+  cloudDisconnectBtn.addEventListener("click", disconnectCloud);
+  cloudSyncBtn.addEventListener("click", syncNow);
 }
 
 function openDb() {
@@ -132,14 +153,224 @@ function setDefaultDateTime() {
   receivedAtInput.value = local;
 }
 
+function setCloudMsg(message, isError = false) {
+  cloudMsg.textContent = message;
+  cloudMsg.style.color = isError ? "#b43b2c" : "#486280";
+}
+
+function getCloudConfig() {
+  return {
+    url: String(sbUrlInput.value || "").trim(),
+    anonKey: String(sbAnonKeyInput.value || "").trim()
+  };
+}
+
+function loadCloudConfig() {
+  try {
+    const raw = localStorage.getItem(CLOUD_CONFIG_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    sbUrlInput.value = parsed.url || "";
+    sbAnonKeyInput.value = parsed.anonKey || "";
+  } catch {
+    // ignore malformed local value
+  }
+}
+
+function persistCloudConfig(config) {
+  localStorage.setItem(CLOUD_CONFIG_KEY, JSON.stringify(config));
+}
+
+function clearCloudConfig() {
+  localStorage.removeItem(CLOUD_CONFIG_KEY);
+}
+
+async function maybeAutoConnectCloud() {
+  const { url, anonKey } = getCloudConfig();
+  if (!url || !anonKey) return;
+  await connectCloud({ userInitiated: false });
+}
+
+async function connectCloud({ userInitiated }) {
+  const { url, anonKey } = getCloudConfig();
+
+  if (!url || !anonKey) {
+    if (userInitiated) setCloudMsg("Enter Supabase URL and anon key.", true);
+    return;
+  }
+
+  if (!window.supabase?.createClient) {
+    setCloudMsg("Supabase client script not loaded.", true);
+    return;
+  }
+
+  try {
+    supabaseClient = window.supabase.createClient(url, anonKey);
+    const { error } = await supabaseClient
+      .from(CLOUD_TABLE)
+      .select("id", { count: "exact", head: true });
+
+    if (error) {
+      cloudConnected = false;
+      if (userInitiated) setCloudMsg(`Cloud connection failed: ${error.message}`, true);
+      return;
+    }
+
+    cloudConnected = true;
+    persistCloudConfig({ url, anonKey });
+    setCloudMsg("Cloud connected. Use Sync Now to push local data.");
+    await refreshSamples();
+  } catch (error) {
+    cloudConnected = false;
+    console.error(error);
+    if (userInitiated) setCloudMsg("Cloud connection failed.", true);
+  }
+}
+
+async function disconnectCloud() {
+  cloudConnected = false;
+  supabaseClient = null;
+  clearCloudConfig();
+  sbAnonKeyInput.value = "";
+  setCloudMsg("Cloud disconnected.");
+  await refreshSamples();
+}
+
+async function getCloudSamples() {
+  if (!cloudConnected || !supabaseClient) return [];
+
+  const { data, error } = await supabaseClient
+    .from(CLOUD_TABLE)
+    .select("id,payload,updated_at")
+    .order("updated_at", { ascending: false });
+
+  if (error) throw error;
+
+  const rows = (data || [])
+    .map((entry) => {
+      const payload = entry.payload || {};
+      return {
+        ...payload,
+        id: payload.id || entry.id,
+        updatedAt: payload.updatedAt || entry.updated_at || payload.createdAt || new Date().toISOString()
+      };
+    })
+    .filter((row) => row.id);
+
+  rows.sort((a, b) => new Date(b.receivedAt || 0) - new Date(a.receivedAt || 0));
+  return rows;
+}
+
+async function upsertCloudSample(sample) {
+  if (!cloudConnected || !supabaseClient) return;
+
+  const payload = {
+    ...sample,
+    reportFileId: null
+  };
+
+  const { error } = await supabaseClient
+    .from(CLOUD_TABLE)
+    .upsert({
+      id: sample.id,
+      payload,
+      updated_at: new Date().toISOString()
+    });
+
+  if (error) throw error;
+}
+
+async function deleteCloudSample(sample) {
+  if (!cloudConnected || !supabaseClient) return;
+
+  if (sample?.reportStoragePath) {
+    await supabaseClient.storage.from(CLOUD_BUCKET).remove([sample.reportStoragePath]);
+  }
+
+  const { error } = await supabaseClient
+    .from(CLOUD_TABLE)
+    .delete()
+    .eq("id", sample.id);
+
+  if (error) throw error;
+}
+
+function sanitizeFileName(name) {
+  return String(name || "report").replace(/[^a-zA-Z0-9._-]/g, "_");
+}
+
+async function uploadReportToCloud(sampleId, file, oldPath = "") {
+  if (!cloudConnected || !supabaseClient || !file || file.size === 0) {
+    return {
+      reportPublicUrl: null,
+      reportStoragePath: oldPath || null
+    };
+  }
+
+  if (oldPath) {
+    await supabaseClient.storage.from(CLOUD_BUCKET).remove([oldPath]);
+  }
+
+  const filePath = `${sampleId}/${Date.now()}-${sanitizeFileName(file.name)}`;
+  const { error: uploadError } = await supabaseClient
+    .storage
+    .from(CLOUD_BUCKET)
+    .upload(filePath, file, { upsert: false });
+
+  if (uploadError) throw uploadError;
+
+  const { data } = supabaseClient
+    .storage
+    .from(CLOUD_BUCKET)
+    .getPublicUrl(filePath);
+
+  return {
+    reportPublicUrl: data?.publicUrl || null,
+    reportStoragePath: filePath
+  };
+}
+
+async function syncNow() {
+  if (!cloudConnected || !supabaseClient) {
+    setCloudMsg("Connect cloud first.", true);
+    return;
+  }
+
+  try {
+    setCloudMsg("Syncing local records to cloud...");
+    const localRows = await getAllLocalSamples();
+
+    for (const row of localRows) {
+      await upsertCloudSample(row);
+    }
+
+    await refreshSamples();
+    setCloudMsg(`Sync complete. ${localRows.length} local record(s) pushed.`);
+  } catch (error) {
+    console.error(error);
+    setCloudMsg(`Sync failed: ${error.message}`, true);
+  }
+}
+
 async function refreshSamples() {
-  samplesCache = await getAllSamples();
+  try {
+    if (cloudConnected && supabaseClient) {
+      samplesCache = await getCloudSamples();
+    } else {
+      samplesCache = await getAllLocalSamples();
+    }
+  } catch (error) {
+    console.error(error);
+    samplesCache = await getAllLocalSamples();
+    setCloudMsg(`Cloud read failed; showing local data. ${error.message}`, true);
+  }
+
   updateSampleIdField();
   updateMetrics();
   renderTable();
 
   dbStatus.textContent = currentUser
-    ? `Ready • Logged in as ${currentUser.name}`
+    ? `Ready • Logged in as ${currentUser.name}${cloudConnected ? " • Cloud ON" : " • Local"}`
     : "Login required";
 }
 
@@ -160,7 +391,7 @@ function updateSampleIdField() {
   sampleIdInput.value = `${prefix}${String(maxSeq + 1).padStart(3, "0")}`;
 }
 
-function getAllSamples() {
+function getAllLocalSamples() {
   return new Promise((resolve, reject) => {
     const req = txStore(SAMPLE_STORE).getAll();
     req.onsuccess = () => {
@@ -172,7 +403,7 @@ function getAllSamples() {
   });
 }
 
-function putSample(sample) {
+function putLocalSample(sample) {
   return new Promise((resolve, reject) => {
     const tx = db.transaction(SAMPLE_STORE, "readwrite");
     tx.objectStore(SAMPLE_STORE).put(sample);
@@ -181,15 +412,7 @@ function putSample(sample) {
   });
 }
 
-function getSampleById(id) {
-  return new Promise((resolve, reject) => {
-    const req = txStore(SAMPLE_STORE).get(id);
-    req.onsuccess = () => resolve(req.result || null);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-function deleteSampleById(id) {
+function deleteLocalSampleById(id) {
   return new Promise((resolve, reject) => {
     const tx = db.transaction([SAMPLE_STORE, FILE_STORE], "readwrite");
     const sampleStore = tx.objectStore(SAMPLE_STORE);
@@ -475,65 +698,67 @@ async function onSubmitSample(event) {
   saveBtn.disabled = true;
 
   try {
+    let existing = null;
     if (editingId) {
-      const existing = await getSampleById(editingId);
+      existing = samplesCache.find((s) => s.id === editingId) || null;
       if (!existing) throw new Error("Sample not found");
       if (!canManageRecord(existing)) throw new Error("No permission to update this record");
-
-      let reportFileId = existing.reportFileId || null;
-      let reportName = existing.reportName || null;
-
-      if (reportFile && reportFile.size > 0) {
-        if (existing.reportFileId) {
-          await deleteFileById(existing.reportFileId);
-        }
-        const savedFile = await saveReportFile(editingId, reportFile);
-        reportFileId = savedFile.id;
-        reportName = savedFile.name;
-      }
-
-      const updated = {
-        ...existing,
-        ...payload,
-        reportFileId,
-        reportName,
-        updatedById: currentUser.id,
-        updatedByName: currentUser.name,
-        updatedAt: new Date().toISOString()
-      };
-
-      await putSample(updated);
-      formMsg.textContent = "Sample updated.";
-    } else {
-      const id = crypto.randomUUID();
-      let reportFileId = null;
-      let reportName = null;
-
-      if (reportFile && reportFile.size > 0) {
-        const savedFile = await saveReportFile(id, reportFile);
-        reportFileId = savedFile.id;
-        reportName = savedFile.name;
-      }
-
-      const recordTime = new Date().toISOString();
-      const sample = {
-        id,
-        ...payload,
-        reportFileId,
-        reportName,
-        createdById: currentUser.id,
-        createdByName: currentUser.name,
-        updatedById: currentUser.id,
-        updatedByName: currentUser.name,
-        createdAt: recordTime,
-        updatedAt: recordTime
-      };
-
-      await putSample(sample);
-      formMsg.textContent = "Sample saved.";
     }
 
-    formMsg.style.color = "#0d7b78";
+    const sampleId = editingId || crypto.randomUUID();
+    let reportFileId = existing?.reportFileId || null;
+    let reportName = existing?.reportName || null;
+    let reportPublicUrl = existing?.reportPublicUrl || null;
+    let reportStoragePath = existing?.reportStoragePath || null;
+
+    if (reportFile && reportFile.size > 0) {
+      if (reportFileId) {
+        await deleteFileById(reportFileId);
+      }
+      const savedFile = await saveReportFile(sampleId, reportFile);
+      reportFileId = savedFile.id;
+      reportName = savedFile.name;
+
+      if (cloudConnected) {
+        const uploaded = await uploadReportToCloud(sampleId, reportFile, reportStoragePath);
+        reportPublicUrl = uploaded.reportPublicUrl;
+        reportStoragePath = uploaded.reportStoragePath;
+      }
+    }
+
+    const sample = {
+      ...(existing || {}),
+      id: sampleId,
+      ...payload,
+      reportFileId,
+      reportName,
+      reportPublicUrl,
+      reportStoragePath,
+      createdById: existing?.createdById || currentUser.id,
+      createdByName: existing?.createdByName || currentUser.name,
+      updatedById: currentUser.id,
+      updatedByName: currentUser.name,
+      createdAt: existing?.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    await putLocalSample(sample);
+
+    if (cloudConnected) {
+      try {
+        await upsertCloudSample(sample);
+      } catch (cloudError) {
+        console.error(cloudError);
+        formMsg.textContent = `Saved locally. Cloud sync failed: ${cloudError.message}`;
+        formMsg.style.color = "#b43b2c";
+      }
+    }
+
+    if (!formMsg.textContent) {
+      formMsg.textContent = editingId ? "Sample updated." : "Sample saved.";
+      formMsg.style.color = "#0d7b78";
+    }
+
     onResetForm();
     await refreshSamples();
   } catch (error) {
@@ -584,7 +809,8 @@ function matchesFilters(sample) {
     sample.phone,
     sample.village,
     sample.testsRequested,
-    sample.createdByName
+    sample.createdByName,
+    sample.updatedByName
   ].join(" ").toLowerCase().includes(q);
 
   const statusHit = !status || sample.status === status;
@@ -667,6 +893,7 @@ function renderTable() {
       });
       statusTd.appendChild(statusSelect);
     }
+
     tr.appendChild(statusTd);
 
     const reportTd = document.createElement("td");
@@ -677,22 +904,25 @@ function renderTable() {
       reportTd.appendChild(reportPill);
       reportTd.appendChild(document.createElement("br"));
 
-      const previewBtn = document.createElement("button");
-      previewBtn.className = "btn btn-outline";
-      previewBtn.style.padding = "5px 8px";
+      const previewBtn = actionButton("Preview", () => openReportPreview(row));
+      const downloadBtn = actionButton("Download", () => downloadReport(row.reportFileId, row.reportName));
       previewBtn.style.marginTop = "6px";
-      previewBtn.textContent = "Preview";
-      previewBtn.addEventListener("click", () => openReportPreview(row));
-
-      const downloadBtn = document.createElement("button");
-      downloadBtn.className = "btn btn-outline";
-      downloadBtn.style.padding = "5px 8px";
       downloadBtn.style.marginTop = "6px";
       downloadBtn.style.marginLeft = "4px";
-      downloadBtn.textContent = "Download";
-      downloadBtn.addEventListener("click", () => downloadReport(row.reportFileId, row.reportName));
-
       reportTd.append(previewBtn, downloadBtn);
+    } else if (row.reportPublicUrl) {
+      const reportPill = document.createElement("span");
+      reportPill.className = "report-pill";
+      reportPill.textContent = row.reportName || "Cloud Report";
+      reportTd.appendChild(reportPill);
+      reportTd.appendChild(document.createElement("br"));
+
+      const previewBtn = actionButton("Preview", () => openRemotePreview(row.reportPublicUrl, row.sampleId));
+      const openBtn = actionButton("Open", () => window.open(row.reportPublicUrl, "_blank", "noopener"));
+      previewBtn.style.marginTop = "6px";
+      openBtn.style.marginTop = "6px";
+      openBtn.style.marginLeft = "4px";
+      reportTd.append(previewBtn, openBtn);
     } else {
       reportTd.textContent = "Not uploaded";
     }
@@ -726,7 +956,18 @@ function renderTable() {
     deleteBtn.addEventListener("click", async () => {
       const ok = window.confirm(`Delete ${row.sampleId}?`);
       if (!ok) return;
-      await deleteSampleById(row.id);
+
+      await deleteLocalSampleById(row.id);
+      if (cloudConnected) {
+        try {
+          await deleteCloudSample(row);
+        } catch (error) {
+          console.error(error);
+          formMsg.textContent = `Deleted locally. Cloud delete failed: ${error.message}`;
+          formMsg.style.color = "#b43b2c";
+        }
+      }
+
       await refreshSamples();
     });
 
@@ -738,8 +979,17 @@ function renderTable() {
   }
 }
 
+function actionButton(text, onClick) {
+  const btn = document.createElement("button");
+  btn.className = "btn btn-outline";
+  btn.style.padding = "5px 8px";
+  btn.textContent = text;
+  btn.addEventListener("click", onClick);
+  return btn;
+}
+
 async function quickUpdateStatus(id, status) {
-  const sample = await getSampleById(id);
+  const sample = samplesCache.find((s) => s.id === id);
   if (!sample || !canManageRecord(sample)) return;
 
   sample.status = status;
@@ -747,12 +997,22 @@ async function quickUpdateStatus(id, status) {
   sample.updatedByName = currentUser.name;
   sample.updatedAt = new Date().toISOString();
 
-  await putSample(sample);
+  await putLocalSample(sample);
+  if (cloudConnected) {
+    try {
+      await upsertCloudSample(sample);
+    } catch (error) {
+      console.error(error);
+      formMsg.textContent = `Status updated locally. Cloud update failed: ${error.message}`;
+      formMsg.style.color = "#b43b2c";
+    }
+  }
+
   await refreshSamples();
 }
 
-async function startEdit(id) {
-  const sample = await getSampleById(id);
+function startEdit(id) {
+  const sample = samplesCache.find((s) => s.id === id);
   if (!sample || !canManageRecord(sample)) return;
 
   editingId = id;
@@ -784,7 +1044,7 @@ async function openReportPreview(sample) {
 
   const file = await getFileById(sample.reportFileId);
   if (!file?.blob) {
-    alert("Report file not found.");
+    alert("Report file not found in local storage.");
     return;
   }
 
@@ -803,6 +1063,19 @@ async function openReportPreview(sample) {
   previewModal.classList.remove("hidden");
 }
 
+function openRemotePreview(url, sampleId) {
+  closePreview();
+  previewTitle.textContent = `Cloud Report • ${sampleId}`;
+
+  if (/\.pdf($|\?)/i.test(url)) {
+    previewBody.innerHTML = `<iframe class="preview-frame" src="${url}"></iframe>`;
+  } else {
+    previewBody.innerHTML = `<img class="preview-image" src="${url}" alt="Report image">`;
+  }
+
+  previewModal.classList.remove("hidden");
+}
+
 function closePreview() {
   previewModal.classList.add("hidden");
   previewBody.innerHTML = "";
@@ -815,7 +1088,7 @@ function closePreview() {
 async function downloadReport(fileId, fileName) {
   const file = await getFileById(fileId);
   if (!file?.blob) {
-    alert("Report file not found.");
+    alert("Report file not found in local storage.");
     return;
   }
 
@@ -950,6 +1223,7 @@ function exportRecords() {
     labFindings: s.labFindings,
     remarks: s.remarks,
     reportName: s.reportName,
+    reportPublicUrl: s.reportPublicUrl,
     createdByName: s.createdByName,
     updatedByName: s.updatedByName,
     createdAt: s.createdAt,
@@ -973,8 +1247,21 @@ async function clearAllData() {
     return;
   }
 
-  const ok = window.confirm("Clear all records, reports, and users except your own account?");
+  const ok = window.confirm("Clear all records and uploaded reports from this browser?");
   if (!ok) return;
+
+  if (cloudConnected) {
+    try {
+      const cloudRows = await getCloudSamples();
+      for (const row of cloudRows) {
+        await deleteCloudSample(row);
+      }
+      setCloudMsg("Cloud records cleared.");
+    } catch (error) {
+      console.error(error);
+      setCloudMsg(`Cloud clear failed: ${error.message}`, true);
+    }
+  }
 
   await new Promise((resolve, reject) => {
     const tx = db.transaction([SAMPLE_STORE, FILE_STORE], "readwrite");

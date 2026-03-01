@@ -215,6 +215,21 @@
           <li>Mark as dispatched after communication.</li>
         </ol>
       </div>
+
+      <div class="cloud-box">
+        <h4>Cloud Sync (Supabase)</h4>
+        <p class="cloud-sub">Optional: connect Supabase to share data across devices.</p>
+        <div class="cloud-grid">
+          <input id="sbUrl" placeholder="Supabase URL">
+          <input id="sbAnonKey" placeholder="Supabase anon key">
+        </div>
+        <div class="cloud-actions">
+          <button id="cloudConnectBtn" class="btn btn-primary" type="button">Connect Cloud</button>
+          <button id="cloudDisconnectBtn" class="btn btn-outline" type="button">Disconnect</button>
+          <button id="cloudSyncBtn" class="btn btn-outline" type="button">Sync Now</button>
+        </div>
+        <p id="cloudMsg" class="cloud-msg"></p>
+      </div>
     </section>
 
     <section class="panel table-panel">
@@ -274,6 +289,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./app.js" defer></script>
 </body>
 </html>
