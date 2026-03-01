@@ -18,7 +18,7 @@ A GitHub Pages-ready web app for:
 Open `index.html` directly in a modern browser, or run a local static server:
 
 ```bash
-cd dddl-lab-webapp
+cd dddlab-webapp
 python3 -m http.server 8080
 ```
 
@@ -41,7 +41,7 @@ Then visit `http://localhost:8080`.
 
 ## Git Setup (already ready in this folder)
 ```bash
-cd dddl-lab-webapp
+cd dddlab-webapp
 git init
 git add .
 git commit -m "Initial DDDL lab portal"
