@@ -24,6 +24,10 @@ python3 -m http.server 8080
 
 Then visit `http://localhost:8080`.
 
+## Live URL
+- GitHub Pages URL (after workflow deploy):  
+  `https://aryaminakshi71.github.io/dddlab-webapp/`
+
 ## Roles
 - First registered user becomes `admin`.
 - Next users are `staff`.
@@ -94,3 +98,6 @@ for delete to anon using (true);
 Important:
 - These `anon` policies are permissive for quick setup/demo.
 - For production, restrict policies with proper authenticated roles.
+
+## Client Onboarding
+- See [CLIENT_GUIDE.md](./CLIENT_GUIDE.md) for step-by-step client usage.
