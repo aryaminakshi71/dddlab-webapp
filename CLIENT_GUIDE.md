@@ -1,7 +1,8 @@
 # Client Guide - DDDLab Web App
 
 ## 1) Open the App
-- URL (after Pages deploy): `https://aryaminakshi71.github.io/dddlab-webapp/`
+- Open brochure-first page: `https://aryaminakshi71.github.io/dddlab-webapp/`
+- Click `Open Lab App`, or directly open: `https://aryaminakshi71.github.io/dddlab-webapp/app.html`
 
 ## 2) First Login Setup
 - In `Staff Login`, enter Name, Email, Password.

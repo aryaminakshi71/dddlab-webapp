@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDDL Gurugram — Laboratory Services Brochure</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a2342;
+    --teal: #0e7c7b;
+    --teal-light: #14a89e;
+    --gold: #c9973a;
+    --gold-light: #e8b84b;
+    --cream: #f8f4ee;
+    --white: #ffffff;
+    --gray: #6b7280;
+    --light-gray: #f1f5f9;
+    --red: #c0392b;
+    --green: #1a7a4a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: #e8e4de;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 20px auto;
+    background: var(--white);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── COVER PAGE ── */
+  .cover {
+    background: var(--navy);
+    min-height: 297mm;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cover-top-bar {
+    background: var(--gold);
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cover-top-bar span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+
+  .cover-hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px 40px 30px;
+    position: relative;
+  }
+
+  .cover-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(14,124,123,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(201,151,58,0.15) 0%, transparent 50%);
+  }
+
+  .dept-badge {
+    display: inline-block;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .cover-title span {
+    color: var(--gold-light);
+  }
+
+  .cover-subtitle {
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .cover-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--teal-light));
+    margin-bottom: 30px;
+  }
+
+  .cover-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .highlight-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-top: 2px solid var(--teal-light);
+    padding: 18px 16px;
+    text-align: center;
+  }
+
+  .highlight-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold-light);
+    display: block;
+  }
+
+  .highlight-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+
+  .machine-band {
+    background: rgba(14,124,123,0.2);
+    border-top: 1px solid rgba(14,124,123,0.4);
+    border-bottom: 1px solid rgba(14,124,123,0.4);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+  }
+
+  .machine-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--teal);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .machine-info h3 {
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .machine-info p {
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+  }
+
+  .machine-specs {
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+  }
+
+  .spec-pill {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  .cover-footer {
+    background: rgba(0,0,0,0.3);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cover-footer-left h4 {
+    color: var(--gold-light);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .cover-footer-left p {
+    color: rgba(255,255,255,0.5);
+    font-size: 11px;
+  }
+
+  .cover-footer-right {
+    text-align: right;
+    color: rgba(255,255,255,0.5);
+    font-size: 11px;
+  }
+
+  /* ── INNER PAGES ── */
+  .inner-page {
+    min-height: 297mm;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-header {
+    background: var(--navy);
+    padding: 16px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .page-header h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white);
+    font-size: 18px;
+  }
+
+  .page-header .pg-badge {
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 12px;
+    letter-spacing: 2px;
+  }
+
+  .section-block {
+    padding: 20px 30px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--light-gray);
+  }
+
+  .section-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .section-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--navy);
+  }
+
+  .section-header .test-count {
+    margin-left: auto;
+    background: var(--navy);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* Test grid */
+  .test-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .test-item {
+    background: var(--light-gray);
+    border-left: 3px solid var(--teal);
+    padding: 7px 10px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .test-item .test-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--navy);
+    display: block;
+  }
+
+  .test-item .test-wave {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 9px;
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  .test-item .test-use {
+    font-size: 9px;
+    color: var(--gray);
+    display: block;
+    margin-top: 1px;
+  }
+
+  /* Color variants */
+  .accent-gold { border-left-color: var(--gold) !important; }
+  .accent-gold .test-wave { color: var(--gold) !important; }
+  .accent-red { border-left-color: var(--red) !important; }
+  .accent-red .test-wave { color: var(--red) !important; }
+  .accent-green { border-left-color: var(--green) !important; }
+  .accent-green .test-wave { color: var(--green) !important; }
+  .accent-purple { border-left-color: #7c3aed !important; }
+  .accent-purple .test-wave { color: #7c3aed !important; }
+
+  /* Two column layout */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* Info box */
+  .info-box {
+    background: linear-gradient(135deg, var(--navy), #1a3a5c);
+    color: var(--white);
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 10px 0;
+  }
+
+  .info-box h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+
+  .info-box p {
+    font-size: 11px;
+    opacity: 0.85;
+    line-height: 1.6;
+  }
+
+  /* Alert/callout */
+  .callout {
+    border-left: 4px solid var(--gold);
+    background: #fef9ee;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 11px;
+    color: var(--navy);
+  }
+
+  .callout strong { color: var(--gold); }
+
+  /* Normal range table */
+  .normal-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin-top: 8px;
+  }
+
+  .normal-table th {
+    background: var(--navy);
+    color: var(--white);
+    padding: 6px 8px;
+    text-align: left;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .normal-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .normal-table tr:nth-child(even) td { background: #f8fafc; }
+  .normal-table tr:hover td { background: #e8f4f4; }
+
+  /* Page footer */
+  .inner-footer {
+    margin-top: auto;
+    background: var(--light-gray);
+    border-top: 2px solid var(--navy);
+    padding: 8px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: var(--gray);
+  }
+
+  .inner-footer strong { color: var(--navy); }
+
+  /* Emergency banner */
+  .emergency-banner {
+    background: linear-gradient(90deg, var(--red), #e74c3c);
+    color: var(--white);
+    padding: 10px 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .emergency-banner .pulse {
+    width: 10px;
+    height: 10px;
+    background: var(--white);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  /* Back page */
+  .back-cover {
+    background: var(--navy);
+    min-height: 297mm;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .back-cover::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(14,124,123,0.2), transparent 70%);
+  }
+
+  .back-top {
+    background: var(--gold);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .back-top h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--navy);
+    font-size: 22px;
+  }
+
+  .back-top p {
+    color: var(--navy);
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  .back-content {
+    padding: 30px 40px;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .contact-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-top: 3px solid var(--teal-light);
+    padding: 18px;
+  }
+
+  .contact-card h4 {
+    color: var(--gold-light);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .contact-card p {
+    color: rgba(255,255,255,0.75);
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .summary-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 14px;
+    text-align: center;
+    border-bottom: 3px solid var(--teal);
+  }
+
+  .summary-card .big-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--gold-light);
+    display: block;
+  }
+
+  .summary-card .small-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+    display: block;
+  }
+
+  .referral-box {
+    background: rgba(14,124,123,0.2);
+    border: 1px solid rgba(14,124,123,0.4);
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .referral-box h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white);
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .referral-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .step {
+    text-align: center;
+  }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    background: var(--teal);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    margin: 0 auto 8px;
+  }
+
+  .step p {
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+  }
+
+  .arrow-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teal-light);
+    font-size: 18px;
+    padding-top: 10px;
+  }
+
+  .reagent-note {
+    margin-top: 20px;
+    background: rgba(201,151,58,0.1);
+    border: 1px solid rgba(201,151,58,0.3);
+    padding: 14px 18px;
+  }
+
+  .reagent-note h4 {
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .reagent-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.75);
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .merged-back-panel {
+    margin: 16px 30px 0;
+    padding: 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+
+  .merged-back-panel .summary-grid {
+    margin: 0 0 12px;
+  }
+
+  .back-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    background: rgba(0,0,0,0.4);
+    padding: 14px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .back-footer p {
+    color: rgba(255,255,255,0.4);
+    font-size: 10px;
+  }
+
+  .back-footer strong { color: var(--gold-light); }
+
+  /* Print */
+  @media print {
+    @page { size: A4; margin: 0; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0;
+      box-shadow: none;
+      overflow: visible;
+      break-after: page;
+      page-break-after: always;
+    }
+    .page:last-of-type {
+      break-after: auto;
+      page-break-after: auto;
+    }
+    .merged-back-panel,
+    .referral-box,
+    .summary-card,
+    .test-item,
+    .section-block {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .page { width: 100%; margin: 0; box-shadow: none; }
+    .test-grid { grid-template-columns: repeat(2, 1fr); }
+    .cover-highlights { grid-template-columns: repeat(2, 1fr); }
+    .cover-top-bar { flex-direction: column; gap: 6px; align-items: flex-start; }
+    .merged-back-panel { margin: 12px 16px 0; padding: 12px; }
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    .referral-box > div { grid-template-columns: 1fr !important; }
+    .arrow-connector { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 1 — COVER
+═══════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-top-bar">
+    <span>Animal Husbandry Department — Haryana Government</span>
+    <span>Laboratory Services 2026</span>
+  </div>
+
+  <div class="cover-hero">
+    <div class="dept-badge">District Disease Diagnosis Laboratory</div>
+    <div>
+      <h2>District Disease Diagnosis Laboratory</h2>
+      <p>Gurugram, Haryana — Animal Husbandry Department</p>
+    </div>
+    <div style="text-align:right;">
+      <p style="font-size: 13px; font-weight: 700; color: var(--navy);">Serving All Livestock of Gurugram District</p>
+      <p style="font-size: 11px; color: var(--navy); opacity: 0.8;">Since establishment — committed to animal health</p>
+    </div>
+    <div class="cover-title">Biochemistry &<br><span>Disease Diagnosis</span><br>Services</div>
+    <div class="cover-subtitle">Complete Veterinary Laboratory Testing — Gurugram, Haryana</div>
+  </div>
+
+
+  <div style="padding: 24px 40px; flex: 1; position: relative;">
+    <p style="color: rgba(255,255,255,0.75); font-size: 13px; line-height: 1.9; max-width: 90%;">
+      The District Disease Diagnosis Laboratory, Gurugram is now equipped with a high-precision visible spectrophotometer capable of performing <strong style="color:var(--gold-light);">145+ biochemical, toxicological, nutritional and quality-control tests</strong> on serum, blood, urine, milk, feed, water and meat samples from all livestock species.
+    </p>
+    <br>
+    <p style="color: rgba(255,255,255,0.55); font-size: 12px; line-height: 1.8;">
+      All veterinary surgeons in the district are requested to utilise these diagnostic services for disease confirmation, treatment monitoring, metabolic profiling, nutritional assessment, and toxicology investigations in cattle, buffalo, sheep, goats, horses, dogs, cats and poultry.
+    </p>
+
+    <div style="margin-top: 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+      <div style="text-align:center; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+        <div style="font-size: 22px; margin-bottom: 4px;">🐄</div>
+        <div style="font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px;">Cattle</div>
+      </div>
+      <div style="text-align:center; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+        <div style="font-size: 22px; margin-bottom: 4px;">🐕</div>
+        <div style="font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px;">Dogs & Cats</div>
+      </div>
+      <div style="text-align:center; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+        <div style="font-size: 22px; margin-bottom: 4px;">🐑</div>
+        <div style="font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px;">Sheep & Goat</div>
+      </div>
+      <div style="text-align:center; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+        <div style="font-size: 22px; margin-bottom: 4px;">🐓</div>
+        <div style="font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px;">Poultry</div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="merged-back-panel">
+
+    <!-- Complete test category summary -->
+    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 16px; margin-bottom: 16px;">
+      <h3 style="font-family:'Playfair Display',serif; color: var(--white); font-size: 15px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 8px;">Complete Test Menu Summary</h3>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+        <div style="padding: 8px; background: rgba(14,124,123,0.15); border-left: 3px solid var(--teal-light);">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Routine Biochemistry</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">18 tests — Glucose, Protein, Albumin, BUN, Creatinine, Lipids, Bilirubin</div>
+        </div>
+        <div style="padding: 8px; background: rgba(201,151,58,0.15); border-left: 3px solid var(--gold);">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Liver Function (LFT)</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">13 tests — SGOT, SGPT, ALP, GGT, LDH, Ammonia, Bile Acids</div>
+        </div>
+        <div style="padding: 8px; background: rgba(124,58,237,0.15); border-left: 3px solid #7c3aed;">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Kidney Function (KFT)</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">9 tests — BUN, Creatinine, Uric Acid, Urine Protein, Clearance</div>
+        </div>
+        <div style="padding: 8px; background: rgba(26,122,74,0.15); border-left: 3px solid var(--green);">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Minerals & Electrolytes</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">14 tests — Ca, P, Mg, Fe, Cu, Zn, Na, K, Cl, Fluoride, Lead</div>
+        </div>
+        <div style="padding: 8px; background: rgba(192,57,43,0.15); border-left: 3px solid var(--red);">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Haematology</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">6 tests — Hb, Methaemoglobin, Carboxyhaemoglobin, Plasma Protein</div>
+        </div>
+        <div style="padding: 8px; background: rgba(124,58,237,0.15); border-left: 3px solid #a855f7;">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Special Enzymes</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">11 tests — CK/CPK, AChE (OP poisoning), Amylase, Lipase, GPx</div>
+        </div>
+        <div style="padding: 8px; background: rgba(201,151,58,0.15); border-left: 3px solid var(--gold-light);">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Milk Testing</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">15 tests — Protein, Fat, CP, MUN, Adulteration panel (8 tests)</div>
+        </div>
+        <div style="padding: 8px; background: rgba(26,122,74,0.15); border-left: 3px solid #22c55e;">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Feed Analysis</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">15 tests — CP, Fat, Urea, Nitrite, Tannins, HCN, Mycotoxin screen</div>
+        </div>
+        <div style="padding: 8px; background: rgba(192,57,43,0.15); border-left: 3px solid #ef4444;">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Toxicology</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">13 tests — OP/Carbamate, Nitrite, Lead, Copper, Fluoride, Cyanide</div>
+        </div>
+        <div style="padding: 8px; background: rgba(14,124,123,0.15); border-left: 3px solid #06b6d4;">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Water Quality</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">15 tests — Nitrite, Fluoride, Iron, Ammonia, Hardness, Heavy metals</div>
+        </div>
+        <div style="padding: 8px; background: rgba(192,57,43,0.15); border-left: 3px solid #f87171;">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Meat Testing</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">8 tests — Species ID, Freshness, Protein, Adulteration, Rancidity</div>
+        </div>
+        <div style="padding: 8px; background: rgba(201,151,58,0.15); border-left: 3px solid #fbbf24;">
+          <div style="color: var(--white); font-size: 12px; font-weight: 700;">Urine Analysis</div>
+          <div style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 2px;">10 tests — Protein, Glucose, Creatinine, Ketones, Bilirubin</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How to refer -->
+    <div class="referral-box">
+      <h3>How to Refer a Sample</h3>
+      <div style="display: grid; grid-template-columns: 1fr 20px 1fr 20px 1fr 20px 1fr; align-items: start; gap: 4px;">
+        <div class="step">
+          <div class="step-num">1</div>
+          <p>Collect sample in appropriate container. Label with animal ID & owner name.</p>
+        </div>
+        <div class="arrow-connector">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <p>Complete the Lab Referral Form. Mention clinical history & suspected diagnosis.</p>
+        </div>
+        <div class="arrow-connector">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <p>Send/bring sample to DDDL Gurugram within 2–4 hours. Keep serum refrigerated.</p>
+        </div>
+        <div class="arrow-connector">→</div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <p>Results dispatched same day or next day. Urgent results communicated by phone.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cover-footer">
+    <div class="cover-footer-left">
+      <h4>District Disease Diagnosis Laboratory</h4>
+      <p>Gurugram, Haryana — Animal Husbandry Department</p>
+    </div>
+    <div class="cover-footer-right">
+      <p>Open: Monday–Saturday</p>
+      <p>8:00 AM – 2:00 PM (sample collection till 11:00 AM)</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 2 — BIOCHEMISTRY + LIVER + KIDNEY
+═══════════════════════════════════════════ -->
+<div class="page inner-page">
+  <div class="page-header">
+    <h2>Routine Biochemistry & Organ Function Tests</h2>
+    <span class="pg-badge">SECTION A</span>
+  </div>
+
+  <div class="emergency-banner">
+    <div class="pulse"></div>
+    Priority Tests for Cattle Emergency Cases: Calcium (Milk Fever) • Magnesium (Grass Tetany) • Glucose (Ketosis) • Urea (Toxicity)
+  </div>
+
+  <div class="section-block">
+    <!-- Routine Biochemistry -->
+    <div class="section-header">
+      <div class="section-icon" style="background:#e8f4f4;">🧬</div>
+      <h3>Routine Serum Biochemistry</h3>
+      <span class="test-count">18 TESTS</span>
+    </div>
+    <div class="test-grid">
+      <div class="test-item"><span class="test-name">Glucose</span><span class="test-wave">505nm | GOD-POD Kit</span><span class="test-use">Ketosis, diabetes, hypoglycaemia</span></div>
+      <div class="test-item"><span class="test-name">Total Protein</span><span class="test-wave">540nm | Biuret Kit</span><span class="test-use">Nutrition, liver & kidney disease</span></div>
+      <div class="test-item"><span class="test-name">Albumin</span><span class="test-wave">630nm | BCG Kit</span><span class="test-use">Liver disease, malnutrition</span></div>
+      <div class="test-item"><span class="test-name">Globulin</span><span class="test-wave">Calculated</span><span class="test-use">Immunity, chronic infection</span></div>
+      <div class="test-item"><span class="test-name">A:G Ratio</span><span class="test-wave">Calculated</span><span class="test-use">Liver disease, chronic illness</span></div>
+      <div class="test-item"><span class="test-name">BUN / Urea</span><span class="test-wave">630nm | Berthelot Kit</span><span class="test-use">Kidney function, urea toxicity</span></div>
+      <div class="test-item"><span class="test-name">Creatinine</span><span class="test-wave">520nm | Jaffe Kit</span><span class="test-use">Kidney function</span></div>
+      <div class="test-item"><span class="test-name">Uric Acid</span><span class="test-wave">520nm | Colorimetric</span><span class="test-use">Gout (poultry/reptiles), kidney</span></div>
+      <div class="test-item"><span class="test-name">Cholesterol</span><span class="test-wave">505nm | CHOD-PAP Kit</span><span class="test-use">Lipid disorder, hypothyroidism</span></div>
+      <div class="test-item"><span class="test-name">Triglycerides</span><span class="test-wave">505nm | GPO-PAP Kit</span><span class="test-use">Fatty liver, lipid metabolism</span></div>
+      <div class="test-item"><span class="test-name">HDL Cholesterol</span><span class="test-wave">505nm | HDL Kit</span><span class="test-use">Lipid profile</span></div>
+      <div class="test-item"><span class="test-name">LDL / VLDL</span><span class="test-wave">Calculated</span><span class="test-use">Lipid profile</span></div>
+      <div class="test-item"><span class="test-name">Total Bilirubin</span><span class="test-wave">546nm | Diazo Kit</span><span class="test-use">Jaundice, liver disease</span></div>
+      <div class="test-item"><span class="test-name">Direct Bilirubin</span><span class="test-wave">546nm | Diazo Kit</span><span class="test-use">Obstructive jaundice</span></div>
+      <div class="test-item"><span class="test-name">Indirect Bilirubin</span><span class="test-wave">Calculated</span><span class="test-use">Haemolytic anaemia</span></div>
+      <div class="test-item"><span class="test-name">Fibrinogen</span><span class="test-wave">540nm | Heat precipitation</span><span class="test-use">Inflammation marker</span></div>
+      <div class="test-item"><span class="test-name">Fructosamine</span><span class="test-wave">530nm | NBT Kit</span><span class="test-use">Long-term glucose control</span></div>
+      <div class="test-item"><span class="test-name">Ketone/BHB</span><span class="test-wave">505nm | BHB Kit</span><span class="test-use">Ketosis diagnosis in cattle</span></div>
+    </div>
+
+    <!-- Liver Function -->
+    <div class="section-header" style="margin-top:14px;">
+      <div class="section-icon" style="background:#fff4e6;">🫀</div>
+      <h3>Liver Function Tests (LFT)</h3>
+      <span class="test-count">13 TESTS</span>
+    </div>
+    <div class="test-grid">
+      <div class="test-item accent-gold"><span class="test-name">SGOT / AST</span><span class="test-wave">546nm | Colorimetric Kit</span><span class="test-use">Liver disease, muscle damage</span></div>
+      <div class="test-item accent-gold"><span class="test-name">SGPT / ALT</span><span class="test-wave">546nm | Colorimetric Kit</span><span class="test-use">Liver disease (dogs/cats specific)</span></div>
+      <div class="test-item accent-gold"><span class="test-name">ALP</span><span class="test-wave">405nm | PNPP Kit</span><span class="test-use">Liver & bone disease</span></div>
+      <div class="test-item accent-gold"><span class="test-name">GGT</span><span class="test-wave">405nm | GPNA Kit</span><span class="test-use">Bile duct disease, liver</span></div>
+      <div class="test-item accent-gold"><span class="test-name">LDH</span><span class="test-wave">340nm | LDH Kit</span><span class="test-use">Liver, heart, muscle disease</span></div>
+      <div class="test-item accent-gold"><span class="test-name">Ammonia</span><span class="test-wave">630nm | Berthelot method</span><span class="test-use">Liver failure, urea toxicity</span></div>
+      <div class="test-item accent-gold"><span class="test-name">SDH</span><span class="test-wave">505nm | Colorimetric</span><span class="test-use">Cattle liver-specific enzyme</span></div>
+      <div class="test-item accent-gold"><span class="test-name">Total Bile Acids</span><span class="test-wave">405nm | Enzymatic Kit</span><span class="test-use">Liver function, bile flow</span></div>
+      <div class="test-item accent-gold"><span class="test-name">Arginase</span><span class="test-wave">540nm | Colorimetric</span><span class="test-use">Liver-specific in cattle</span></div>
+      <div class="test-item accent-gold"><span class="test-name">NEFA / Free Fatty Acids</span><span class="test-wave">505nm | NEFA Kit</span><span class="test-use">Fatty liver, ketosis, transition cow</span></div>
+      <div class="test-item accent-gold"><span class="test-name">Total Bilirubin</span><span class="test-wave">546nm | Diazo Kit</span><span class="test-use">Jaundice grading</span></div>
+      <div class="test-item accent-gold"><span class="test-name">Direct Bilirubin</span><span class="test-wave">546nm | Diazo Kit</span><span class="test-use">Obstructive vs haemolytic</span></div>
+      <div class="test-item accent-gold"><span class="test-name">Acid Phosphatase</span><span class="test-wave">405nm | PNPP pH 5.0</span><span class="test-use">Prostatic disease</span></div>
+    </div>
+
+    <!-- Kidney Function -->
+    <div class="section-header" style="margin-top:14px;">
+      <div class="section-icon" style="background:#f0f7ff;">🫘</div>
+      <h3>Kidney Function Tests (KFT)</h3>
+      <span class="test-count">9 TESTS</span>
+    </div>
+    <div class="test-grid">
+      <div class="test-item accent-purple"><span class="test-name">BUN / Urea</span><span class="test-wave">630nm | Berthelot Kit</span><span class="test-use">Primary kidney marker</span></div>
+      <div class="test-item accent-purple"><span class="test-name">Creatinine (serum)</span><span class="test-wave">520nm | Jaffe Kit</span><span class="test-use">GFR estimation</span></div>
+      <div class="test-item accent-purple"><span class="test-name">Uric Acid</span><span class="test-wave">520nm | Phosphotungstate</span><span class="test-use">Visceral gout in poultry</span></div>
+      <div class="test-item accent-purple"><span class="test-name">Urine Protein</span><span class="test-wave">595nm | Bradford method</span><span class="test-use">Proteinuria, kidney damage</span></div>
+      <div class="test-item accent-purple"><span class="test-name">Urine Creatinine</span><span class="test-wave">520nm | Jaffe Kit</span><span class="test-use">Renal clearance</span></div>
+      <div class="test-item accent-purple"><span class="test-name">Urine Glucose</span><span class="test-wave">505nm | GOD-POD</span><span class="test-use">Diabetes mellitus</span></div>
+      <div class="test-item accent-purple"><span class="test-name">Urine Urea</span><span class="test-wave">630nm | Berthelot</span><span class="test-use">Renal function</span></div>
+      <div class="test-item accent-purple"><span class="test-name">Urine Bilirubin</span><span class="test-wave">540nm | Diazo</span><span class="test-use">Liver/kidney disease</span></div>
+      <div class="test-item accent-purple"><span class="test-name">Urine Ketones</span><span class="test-wave">540nm | Rothera method</span><span class="test-use">Ketosis, diabetes</span></div>
+    </div>
+
+    <div class="callout">
+      <strong>Normal Values Quick Reference:</strong> BUN — Cattle 10–25 mg/dl | Dog 8–25 mg/dl | Cat 15–35 mg/dl. Creatinine — Cattle 1.0–2.0 mg/dl | Dog 0.5–1.5 mg/dl | Cat 0.8–2.0 mg/dl. Calcium — Cattle 8–11 mg/dl (below 7 = Milk Fever). Magnesium — Cattle 1.8–2.8 mg/dl (below 1.5 = Grass Tetany).
+    </div>
+  </div>
+
+  <div class="inner-footer">
+    <span><strong>DDDL Gurugram</strong> — Biochemistry & Organ Function</span>
+    <span>Animal Husbandry Department, Haryana • 2026</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 3 — MINERALS + HAEMATOLOGY + ENZYMES
+═══════════════════════════════════════════ -->
+<div class="page inner-page">
+  <div class="page-header">
+    <h2>Minerals, Haematology & Enzyme Tests</h2>
+    <span class="pg-badge">SECTION B</span>
+  </div>
+
+  <div class="section-block">
+
+    <!-- Minerals -->
+    <div class="section-header">
+      <div class="section-icon" style="background:#f0fdf4;">⚗️</div>
+      <h3>Minerals & Electrolytes</h3>
+      <span class="test-count">14 TESTS</span>
+    </div>
+    <div class="test-grid">
+      <div class="test-item accent-green"><span class="test-name">Calcium ⭐</span><span class="test-wave">650nm | Arsenazo III Kit</span><span class="test-use">Milk fever — CRITICAL</span></div>
+      <div class="test-item accent-green"><span class="test-name">Phosphorus ⭐</span><span class="test-wave">640nm | Molybdate Kit</span><span class="test-use">Milk fever, bone disease</span></div>
+      <div class="test-item accent-green"><span class="test-name">Magnesium ⭐</span><span class="test-wave">520nm | Xylidyl Blue Kit</span><span class="test-use">Grass tetany — CRITICAL</span></div>
+      <div class="test-item accent-green"><span class="test-name">Iron</span><span class="test-wave">560nm | Ferrozine Kit</span><span class="test-use">Anaemia, deficiency</span></div>
+      <div class="test-item accent-green"><span class="test-name">TIBC</span><span class="test-wave">560nm | Ferrozine Kit</span><span class="test-use">Iron deficiency anaemia</span></div>
+      <div class="test-item accent-green"><span class="test-name">Copper</span><span class="test-wave">480nm | Bathocuproine Kit</span><span class="test-use">Swayback, deficiency/toxicity</span></div>
+      <div class="test-item accent-green"><span class="test-name">Zinc</span><span class="test-wave">560nm | Zincon dye</span><span class="test-use">Deficiency, immune function</span></div>
+      <div class="test-item accent-green"><span class="test-name">Sodium</span><span class="test-wave">490nm | Colorimetric</span><span class="test-use">Electrolyte balance</span></div>
+      <div class="test-item accent-green"><span class="test-name">Potassium</span><span class="test-wave">620nm | Colorimetric</span><span class="test-use">Electrolyte balance</span></div>
+      <div class="test-item accent-green"><span class="test-name">Chloride</span><span class="test-wave">480nm | Mercuric thiocyanate</span><span class="test-use">Electrolyte balance</span></div>
+      <div class="test-item accent-green"><span class="test-name">Manganese</span><span class="test-wave">450nm | Formaldoxime</span><span class="test-use">Trace mineral status</span></div>
+      <div class="test-item accent-green"><span class="test-name">Fluoride</span><span class="test-wave">620nm | SPADNS method</span><span class="test-use">Fluorosis diagnosis</span></div>
+      <div class="test-item accent-green"><span class="test-name">Lead</span><span class="test-wave">510nm | Dithizone</span><span class="test-use">Lead poisoning</span></div>
+      <div class="test-item accent-green"><span class="test-name">Calcium:Phosphorus Ratio</span><span class="test-wave">Calculated</span><span class="test-use">Metabolic bone disease</span></div>
+    </div>
+
+    <div class="two-col" style="margin-top: 14px; gap: 14px;">
+
+      <!-- Haematology -->
+      <div>
+        <div class="section-header">
+          <div class="section-icon" style="background:#fff0f0;">🩸</div>
+          <h3>Haematological Tests</h3>
+          <span class="test-count">6 TESTS</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="test-item accent-red"><span class="test-name">Haemoglobin</span><span class="test-wave">540nm | Drabkin Kit</span><span class="test-use">Anaemia diagnosis</span></div>
+          <div class="test-item accent-red"><span class="test-name">Oxyhaemoglobin</span><span class="test-wave">577nm | Direct</span><span class="test-use">Oxygen status</span></div>
+          <div class="test-item accent-red"><span class="test-name">Methaemoglobin</span><span class="test-wave">630nm | Direct</span><span class="test-use">Nitrite poisoning</span></div>
+          <div class="test-item accent-red"><span class="test-name">Carboxyhaemoglobin</span><span class="test-wave">540/570nm | Differential</span><span class="test-use">CO poisoning</span></div>
+          <div class="test-item accent-red"><span class="test-name">Plasma Protein</span><span class="test-wave">540nm | Biuret</span><span class="test-use">Quick protein check</span></div>
+          <div class="test-item accent-red"><span class="test-name">Serum Iron</span><span class="test-wave">560nm | Ferrozine</span><span class="test-use">Anaemia workup</span></div>
+        </div>
+      </div>
+
+      <!-- Enzymes -->
+      <div>
+        <div class="section-header">
+          <div class="section-icon" style="background:#f5f0ff;">🔩</div>
+          <h3>Special Enzyme Tests</h3>
+          <span class="test-count">11 TESTS</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="test-item accent-purple"><span class="test-name">CK / CPK ⭐</span><span class="test-wave">505nm | NAC Kit</span><span class="test-use">White muscle disease</span></div>
+          <div class="test-item accent-purple"><span class="test-name">AChE ⭐</span><span class="test-wave">412nm | Ellman DTNB</span><span class="test-use">OP poisoning diagnosis</span></div>
+          <div class="test-item accent-purple"><span class="test-name">Amylase</span><span class="test-wave">540nm | Starch-iodine</span><span class="test-use">Pancreatitis</span></div>
+          <div class="test-item accent-purple"><span class="test-name">Lipase</span><span class="test-wave">580nm | Turbidimetric</span><span class="test-use">Pancreatitis</span></div>
+          <div class="test-item accent-purple"><span class="test-name">Cholinesterase</span><span class="test-wave">412nm | Ellman DTNB</span><span class="test-use">Carbamate poisoning</span></div>
+          <div class="test-item accent-purple"><span class="test-name">Glutathione Px</span><span class="test-wave">412nm | DTNB</span><span class="test-use">Selenium status</span></div>
+          <div class="test-item accent-purple"><span class="test-name">SOD</span><span class="test-wave">550nm | NBT method</span><span class="test-use">Oxidative stress</span></div>
+          <div class="test-item accent-purple"><span class="test-name">Lysozyme</span><span class="test-wave">450nm | Turbidimetric</span><span class="test-use">Immunity marker</span></div>
+          <div class="test-item accent-purple"><span class="test-name">ALP</span><span class="test-wave">405nm | PNPP Kit</span><span class="test-use">Liver / bone</span></div>
+          <div class="test-item accent-purple"><span class="test-name">Catalase</span><span class="test-wave">405nm | Colorimetric</span><span class="test-use">Oxidative stress</span></div>
+          <div class="test-item accent-purple"><span class="test-name">LDH</span><span class="test-wave">340nm | LDH Kit</span><span class="test-use">Liver, heart, muscle</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Normal values table -->
+    <div style="margin-top: 14px;">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f8f4ee;">📊</div>
+        <h3>Key Mineral Normal Ranges by Species</h3>
+      </div>
+      <table class="normal-table">
+        <thead>
+          <tr>
+            <th>Mineral</th>
+            <th>Cattle / Buffalo</th>
+            <th>Sheep / Goat</th>
+            <th>Horse</th>
+            <th>Dog / Cat</th>
+            <th>Clinical Significance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Calcium (mg/dl)</strong></td><td>8.0–11.0</td><td>8.0–12.0</td><td>10.0–13.0</td><td>8.7–11.8</td><td>↓ Milk fever, eclampsia</td></tr>
+          <tr><td><strong>Phosphorus (mg/dl)</strong></td><td>4.0–8.0</td><td>4.0–8.0</td><td>2.6–5.0</td><td>2.5–6.0</td><td>↓ Downer cow, bone disease</td></tr>
+          <tr><td><strong>Magnesium (mg/dl)</strong></td><td>1.8–2.8</td><td>2.0–3.4</td><td>1.8–2.8</td><td>1.7–2.7</td><td>↓ Grass tetany, hypoMg</td></tr>
+          <tr><td><strong>Iron (µg/dl)</strong></td><td>57–162</td><td>166–222</td><td>93–203</td><td>94–122</td><td>↓ Anaemia, deficiency</td></tr>
+          <tr><td><strong>Copper (µg/dl)</strong></td><td>60–140</td><td>60–145</td><td>70–150</td><td>70–140</td><td>↓ Swayback in lambs</td></tr>
+          <tr><td><strong>Haemoglobin (g/dl)</strong></td><td>8–15</td><td>9–15</td><td>11–19</td><td>12–18</td><td>↓ Anaemia of any cause</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="inner-footer">
+    <span><strong>DDDL Gurugram</strong> — Minerals, Haematology & Enzymes</span>
+    <span>Animal Husbandry Department, Haryana • 2026</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 4 — MILK + FEED + TOXICOLOGY
+═══════════════════════════════════════════ -->
+<div class="page inner-page">
+  <div class="page-header">
+    <h2>Milk Quality, Feed Analysis & Toxicology</h2>
+    <span class="pg-badge">SECTION C</span>
+  </div>
+
+  <div class="section-block">
+    <div class="three-col">
+      <!-- Milk Testing -->
+      <div>
+        <div class="section-header">
+          <div class="section-icon" style="background:#fff8f0;">🥛</div>
+          <h3>Milk Testing</h3>
+          <span class="test-count">15 TESTS</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <div class="test-item accent-gold"><span class="test-name">Milk Protein</span><span class="test-wave">540nm | Biuret Kit</span><span class="test-use">Nutrition, adulteration</span></div>
+          <div class="test-item accent-gold"><span class="test-name">Crude Protein (CP)</span><span class="test-wave">630nm | Kjeldahl-Berthelot</span><span class="test-use">Quality control</span></div>
+          <div class="test-item accent-gold"><span class="test-name">Milk Fat</span><span class="test-wave">530nm | Vanillin method</span><span class="test-use">Quality & adulteration</span></div>
+          <div class="test-item accent-gold"><span class="test-name">Milk Urea Nitrogen</span><span class="test-wave">630nm | Berthelot Kit</span><span class="test-use">Dietary protein balance</span></div>
+          <div class="test-item accent-gold"><span class="test-name">Lactose</span><span class="test-wave">505nm | GOD method</span><span class="test-use">Quality check</span></div>
+          <div class="test-item accent-gold"><span class="test-name">ALP Test</span><span class="test-wave">405nm | PNPP Kit</span><span class="test-use">Pasteurisation check</span></div>
+          <div class="test-item accent-red"><span class="test-name">Starch adulteration</span><span class="test-wave">580nm | Iodine</span><span class="test-use">Adulteration detection</span></div>
+          <div class="test-item accent-red"><span class="test-name">Formalin</span><span class="test-wave">560nm | Hehner test</span><span class="test-use">Preservative detection</span></div>
+          <div class="test-item accent-red"><span class="test-name">H2O2 preservative</span><span class="test-wave">450nm | Ti-sulphate</span><span class="test-use">Preservative detection</span></div>
+          <div class="test-item accent-red"><span class="test-name">Neutralisers</span><span class="test-wave">420nm | Rosolic acid</span><span class="test-use">NaHCO3 adulteration</span></div>
+          <div class="test-item accent-red"><span class="test-name">Urea adulteration</span><span class="test-wave">630nm | Berthelot</span><span class="test-use">Adulteration detection</span></div>
+          <div class="test-item accent-red"><span class="test-name">Detergent/soap</span><span class="test-wave">620nm | Bromocresol purple</span><span class="test-use">Adulteration detection</span></div>
+          <div class="test-item accent-green"><span class="test-name">Calcium in milk</span><span class="test-wave">650nm | Arsenazo III</span><span class="test-use">Mineral content</span></div>
+          <div class="test-item accent-green"><span class="test-name">Phosphorus in milk</span><span class="test-wave">640nm | Molybdate</span><span class="test-use">Mineral content</span></div>
+          <div class="test-item"><span class="test-name">Somatic Cell (indirect)</span><span class="test-wave">540nm | Protein release</span><span class="test-use">Mastitis screening</span></div>
+        </div>
+      </div>
+
+      <!-- Feed Testing -->
+      <div>
+        <div class="section-header">
+          <div class="section-icon" style="background:#f0fdf4;">🌾</div>
+          <h3>Feed & Fodder Analysis</h3>
+          <span class="test-count">15 TESTS</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <div class="test-item accent-green"><span class="test-name">Crude Protein (CP%)</span><span class="test-wave">630nm | Kjeldahl-Berthelot</span><span class="test-use">Nutritional analysis</span></div>
+          <div class="test-item accent-green"><span class="test-name">Crude Fat</span><span class="test-wave">530nm | Vanillin method</span><span class="test-use">Energy content</span></div>
+          <div class="test-item accent-green"><span class="test-name">NPN / Urea in feed</span><span class="test-wave">630nm | Berthelot Kit</span><span class="test-use">Urea toxicity risk</span></div>
+          <div class="test-item accent-green"><span class="test-name">Nitrite in feed</span><span class="test-wave">540nm | Griess reagent</span><span class="test-use">Nitrite poisoning</span></div>
+          <div class="test-item accent-green"><span class="test-name">Total Phenols/Tannins</span><span class="test-wave">750nm | Folin-Ciocalteu</span><span class="test-use">Anti-nutritional factors</span></div>
+          <div class="test-item accent-green"><span class="test-name">Phytate</span><span class="test-wave">500nm | Wade method</span><span class="test-use">Mineral availability</span></div>
+          <div class="test-item accent-green"><span class="test-name">Gossypol</span><span class="test-wave">440nm | Aniline method</span><span class="test-use">Cottonseed cake toxicity</span></div>
+          <div class="test-item accent-green"><span class="test-name">Saponins</span><span class="test-wave">540nm | Vanillin-H2SO4</span><span class="test-use">Anti-nutritional factors</span></div>
+          <div class="test-item accent-green"><span class="test-name">HCN / Prussic acid</span><span class="test-wave">530nm | Sodium picrate</span><span class="test-use">Cassava, sorghum toxicity</span></div>
+          <div class="test-item accent-green"><span class="test-name">Oxalate in feed</span><span class="test-wave">530nm | Permanganate</span><span class="test-use">Oxalate plant toxicity</span></div>
+          <div class="test-item accent-green"><span class="test-name">Fluoride in feed</span><span class="test-wave">620nm | SPADNS</span><span class="test-use">Fluorosis risk</span></div>
+          <div class="test-item accent-green"><span class="test-name">Carotene / Vitamin A</span><span class="test-wave">450nm | Colorimetric</span><span class="test-use">Vitamin A status</span></div>
+          <div class="test-item accent-green"><span class="test-name">Calcium in feed</span><span class="test-wave">650nm | Arsenazo III</span><span class="test-use">Mineral balance</span></div>
+          <div class="test-item accent-green"><span class="test-name">Phosphorus in feed</span><span class="test-wave">640nm | Molybdate</span><span class="test-use">Mineral balance</span></div>
+          <div class="test-item accent-green"><span class="test-name">Iron in feed</span><span class="test-wave">560nm | Ferrozine</span><span class="test-use">Mineral content</span></div>
+        </div>
+      </div>
+
+      <!-- Toxicology -->
+      <div>
+        <div class="section-header">
+          <div class="section-icon" style="background:#fff0f0;">☠️</div>
+          <h3>Toxicology Tests</h3>
+          <span class="test-count">13 TESTS</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <div class="test-item accent-red"><span class="test-name">OP Poisoning ⭐</span><span class="test-wave">412nm | Ellman AChE</span><span class="test-use">Organophosphate pesticide</span></div>
+          <div class="test-item accent-red"><span class="test-name">Carbamate Poisoning ⭐</span><span class="test-wave">412nm | Ellman AChE</span><span class="test-use">Carbamate pesticide</span></div>
+          <div class="test-item accent-red"><span class="test-name">Nitrite Poisoning ⭐</span><span class="test-wave">630nm | Methaemoglobin</span><span class="test-use">Methaemoglobinaemia</span></div>
+          <div class="test-item accent-red"><span class="test-name">Lead Poisoning</span><span class="test-wave">510nm | Dithizone</span><span class="test-use">Lead toxicity</span></div>
+          <div class="test-item accent-red"><span class="test-name">Copper Toxicity</span><span class="test-wave">480nm | Bathocuproine</span><span class="test-use">Copper poisoning sheep</span></div>
+          <div class="test-item accent-red"><span class="test-name">Fluoride Toxicity</span><span class="test-wave">620nm | SPADNS</span><span class="test-use">Fluorosis</span></div>
+          <div class="test-item accent-red"><span class="test-name">Urea/Ammonia Toxicity</span><span class="test-wave">630nm | Berthelot</span><span class="test-use">NPN toxicity in cattle</span></div>
+          <div class="test-item accent-red"><span class="test-name">HCN / Cyanide</span><span class="test-wave">530nm | Sodium picrate</span><span class="test-use">Prussic acid poisoning</span></div>
+          <div class="test-item accent-red"><span class="test-name">Alcohol / Ethanol</span><span class="test-wave">440nm | Dichromate</span><span class="test-use">Fermented feed toxicity</span></div>
+          <div class="test-item accent-red"><span class="test-name">Gossypol Toxicity</span><span class="test-wave">440nm | Aniline</span><span class="test-use">Cottonseed poisoning</span></div>
+          <div class="test-item accent-red"><span class="test-name">Oxalate Toxicity</span><span class="test-wave">530nm | Permanganate</span><span class="test-use">Oxalate plant poisoning</span></div>
+          <div class="test-item accent-red"><span class="test-name">Saponin Toxicity</span><span class="test-wave">540nm | Vanillin</span><span class="test-use">Plant toxin</span></div>
+          <div class="test-item accent-red"><span class="test-name">Phenol Toxicity</span><span class="test-wave">750nm | Folin method</span><span class="test-use">Industrial chemical</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top: 14px;">
+      <h4>⚠️ Aflatoxin Screening in Feed & Milk</h4>
+      <p>Aflatoxin B1 in feed can be screened at 360nm by solvent extraction method. Aflatoxin M1 in milk (carry-over from contaminated feed) can also be detected. This is critical for dairy herds showing liver disease, immunosuppression or ill-thrift. Safe limit: Aflatoxin B1 &lt;10 ppb in feed (India). Confirmatory testing by TLC or ELISA recommended for positive cases.</p>
+    </div>
+  </div>
+
+  <div class="inner-footer">
+    <span><strong>DDDL Gurugram</strong> — Milk, Feed & Toxicology</span>
+    <span>Animal Husbandry Department, Haryana • 2026</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 5 — WATER + MEAT + URINE
+═══════════════════════════════════════════ -->
+<div class="page inner-page">
+  <div class="page-header">
+    <h2>Water Quality, Meat Testing & Urine Analysis</h2>
+    <span class="pg-badge">SECTION D</span>
+  </div>
+
+  <div class="section-block">
+    <div class="three-col">
+
+      <!-- Water Quality -->
+      <div>
+        <div class="section-header">
+          <div class="section-icon" style="background:#e8f4ff;">💧</div>
+          <h3>Water Quality</h3>
+          <span class="test-count">15 TESTS</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <div class="test-item"><span class="test-name">Nitrite</span><span class="test-wave">540nm | Griess reagent</span><span class="test-use">Water safety for animals</span></div>
+          <div class="test-item"><span class="test-name">Fluoride ⭐</span><span class="test-wave">620nm | SPADNS method</span><span class="test-use">Fluorosis from water</span></div>
+          <div class="test-item"><span class="test-name">Iron</span><span class="test-wave">560nm | Ferrozine</span><span class="test-use">WHO limit 0.3 mg/L</span></div>
+          <div class="test-item"><span class="test-name">Ammonia</span><span class="test-wave">630nm | Berthelot</span><span class="test-use">Water contamination</span></div>
+          <div class="test-item"><span class="test-name">Total Hardness</span><span class="test-wave">520nm | EDTA colorimetric</span><span class="test-use">Calcium+Mg hardness</span></div>
+          <div class="test-item"><span class="test-name">Calcium hardness</span><span class="test-wave">650nm | Arsenazo III</span><span class="test-use">Water mineral content</span></div>
+          <div class="test-item"><span class="test-name">Magnesium hardness</span><span class="test-wave">520nm | Xylidyl Blue</span><span class="test-use">Water mineral content</span></div>
+          <div class="test-item"><span class="test-name">Chloride</span><span class="test-wave">480nm | Mercuric thiocyanate</span><span class="test-use">Salinity of water</span></div>
+          <div class="test-item"><span class="test-name">Sulphate</span><span class="test-wave">420nm | Turbidimetric</span><span class="test-use">Water quality</span></div>
+          <div class="test-item"><span class="test-name">Copper</span><span class="test-wave">480nm | Bathocuproine</span><span class="test-use">Copper in drinking water</span></div>
+          <div class="test-item"><span class="test-name">Lead</span><span class="test-wave">510nm | Dithizone</span><span class="test-use">Lead contamination</span></div>
+          <div class="test-item"><span class="test-name">Phosphate</span><span class="test-wave">640nm | Molybdate</span><span class="test-use">Eutrophication indicator</span></div>
+          <div class="test-item"><span class="test-name">COD (indirect)</span><span class="test-wave">600nm | Dichromate</span><span class="test-use">Organic load</span></div>
+          <div class="test-item"><span class="test-name">Turbidity</span><span class="test-wave">860nm | Nephelometric</span><span class="test-use">Water clarity</span></div>
+          <div class="test-item"><span class="test-name">Manganese</span><span class="test-wave">450nm | Formaldoxime</span><span class="test-use">Trace mineral in water</span></div>
+        </div>
+        <div class="callout" style="margin-top: 8px;">
+          <strong>WHO Limits:</strong> Nitrate &lt;50mg/L • Fluoride &lt;1.5mg/L • Iron &lt;0.3mg/L • Lead &lt;0.01mg/L • Ammonia &lt;0.5mg/L
+        </div>
+      </div>
+
+      <!-- Meat Testing -->
+      <div>
+        <div class="section-header">
+          <div class="section-icon" style="background:#fff0f0;">🥩</div>
+          <h3>Meat Identification</h3>
+          <span class="test-count">8 TESTS</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <div class="test-item accent-red"><span class="test-name">Species ID (Cow vs Buffalo)</span><span class="test-wave">525–582nm | Myoglobin</span><span class="test-use">Presumptive species ID</span></div>
+          <div class="test-item accent-red"><span class="test-name">Meat Freshness (TBA)</span><span class="test-wave">532nm | TBA method</span><span class="test-use">Spoilage/rancidity</span></div>
+          <div class="test-item accent-red"><span class="test-name">Meat Protein</span><span class="test-wave">540nm | Biuret Kit</span><span class="test-use">Quality / adulteration</span></div>
+          <div class="test-item accent-red"><span class="test-name">Nitrite in cured meat</span><span class="test-wave">540nm | Griess reagent</span><span class="test-use">Curing agent level</span></div>
+          <div class="test-item accent-red"><span class="test-name">Peroxide value</span><span class="test-wave">500nm | Fe-thiocyanate</span><span class="test-use">Fat rancidity</span></div>
+          <div class="test-item accent-red"><span class="test-name">Starch adulteration</span><span class="test-wave">580nm | Iodine</span><span class="test-use">Meat product adulteration</span></div>
+          <div class="test-item accent-red"><span class="test-name">Hydroxyproline</span><span class="test-wave">560nm | Chloramine-T</span><span class="test-use">Collagen / offal content</span></div>
+          <div class="test-item accent-red"><span class="test-name">Formalin in meat</span><span class="test-wave">560nm | Hehner test</span><span class="test-use">Preservative detection</span></div>
+        </div>
+        <div class="info-box" style="margin-top: 8px; padding: 12px 14px;">
+          <h4>Note on Meat Species ID</h4>
+          <p style="font-size: 10px;">Spectrophotometric method gives PRESUMPTIVE identification based on myoglobin content. Buffalo meat has significantly higher myoglobin than cattle. For legal/forensic confirmation, PCR-DNA analysis is the gold standard.</p>
+        </div>
+      </div>
+
+      <!-- Urine -->
+      <div>
+        <div class="section-header">
+          <div class="section-icon" style="background:#fffbe6;">🧪</div>
+          <h3>Urine Analysis</h3>
+          <span class="test-count">10 TESTS</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <div class="test-item"><span class="test-name">Urine Protein</span><span class="test-wave">595nm | Bradford method</span><span class="test-use">Kidney disease</span></div>
+          <div class="test-item"><span class="test-name">Urine Glucose</span><span class="test-wave">505nm | GOD-POD</span><span class="test-use">Diabetes mellitus</span></div>
+          <div class="test-item"><span class="test-name">Urine Creatinine</span><span class="test-wave">520nm | Jaffe</span><span class="test-use">Kidney function</span></div>
+          <div class="test-item"><span class="test-name">Urine Urea</span><span class="test-wave">630nm | Berthelot</span><span class="test-use">Renal function</span></div>
+          <div class="test-item"><span class="test-name">Urine Bilirubin</span><span class="test-wave">540nm | Diazo</span><span class="test-use">Liver disease</span></div>
+          <div class="test-item"><span class="test-name">Urobilinogen</span><span class="test-wave">562nm | Ehrlich</span><span class="test-use">Liver / haemolysis</span></div>
+          <div class="test-item"><span class="test-name">Urine Ketones</span><span class="test-wave">540nm | Rothera method</span><span class="test-use">Ketosis diagnosis</span></div>
+          <div class="test-item"><span class="test-name">Urine Calcium</span><span class="test-wave">650nm | Arsenazo III</span><span class="test-use">Hypercalciuria</span></div>
+          <div class="test-item"><span class="test-name">Urine Phosphorus</span><span class="test-wave">640nm | Molybdate</span><span class="test-use">Kidney/dietary</span></div>
+          <div class="test-item"><span class="test-name">Urine Blood/Hb</span><span class="test-wave">540nm | Drabkin</span><span class="test-use">Haematuria</span></div>
+        </div>
+
+        <div style="margin-top: 12px; background: var(--light-gray); padding: 12px; border-left: 3px solid var(--navy);">
+          <p style="font-size: 11px; font-weight: 700; color: var(--navy); margin-bottom: 6px;">Sample Requirements</p>
+          <p style="font-size: 10px; color: var(--gray); line-height: 1.7;">
+            <strong>Serum/Plasma:</strong> 2–5 ml blood in plain tube. Centrifuge before sending.<br>
+            <strong>Urine:</strong> Fresh mid-stream urine 5–10 ml in clean container.<br>
+            <strong>Milk:</strong> Fresh milk 10–20 ml in clean bottle.<br>
+            <strong>Feed/Fodder:</strong> 100–200g representative sample in sealed bag.<br>
+            <strong>Water:</strong> 500 ml in clean plastic bottle.<br>
+            <strong>Meat:</strong> Fresh 50–100g sample in sealed bag with ice.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="inner-footer">
+    <span><strong>DDDL Gurugram</strong> — Water, Meat & Urine Tests</span>
+    <span>Animal Husbandry Department, Haryana • 2026</span>
+  </div>
+</div>
+
+</body>
+</html>

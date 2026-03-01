@@ -22,11 +22,15 @@ cd dddlab-webapp
 python3 -m http.server 8080
 ```
 
-Then visit `http://localhost:8080`.
+Then visit:
+- `http://localhost:8080/` (brochure-first landing page)
+- `http://localhost:8080/app.html` (lab portal app)
 
 ## Live URL
-- GitHub Pages URL (after workflow deploy):  
+- Brochure-first landing page:  
   `https://aryaminakshi71.github.io/dddlab-webapp/`
+- Lab portal app page:  
+  `https://aryaminakshi71.github.io/dddlab-webapp/app.html`
 
 ## Roles
 - First registered user becomes `admin`.
